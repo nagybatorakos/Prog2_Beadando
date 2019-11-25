@@ -93,7 +93,7 @@ class Knight(Piece):
     def canMove(self):
         possible_moves=[]
         char=self.name[0]
-        i,j=3,3 #self.getPosition()
+        i,j=self.getPosition()
 
         if i-2>=0 and j-1>=0:
             if board[i-2][j-1]=='' or board[i-2][j-1][0]!=char:
@@ -132,13 +132,215 @@ class Knight(Piece):
 
 
 
+class Bishop(Piece):
+
+    def __init__(self,name):
+        Piece.__init__(self,name)
+
+    def canMove(self):
+        possible_moves=[]
+        char=self.name[0]
+        i,j=self.getPosition()
+
+        if i+1<8 and j+1<8:
+            h=j+1
+            for v in range(i+1,board.shape[1]):
+
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h+=1
+            h=j
+
+        if i-1>=0 and j+1<8:
+            h=j+1
+            for v in range(i-1,-1,-1):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h+=1
+            h=j
+
+        if i-1>=0 and j-1>=0:
+            h=j-1
+            for v in range(i-1,-1,-1):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h-=1
+            h=j
+
+        if i+1<8 and j-1>=0:
+            h=j-1
+            for v in range(i+1,board.shape[1]):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h-=1
+            h=j
+        return possible_moves
+
+
+
+
+class King(Piece):
+    def __init__(self,name):
+        Piece.__init__(self,name)
+
+    def canMove(self):
+        possible_moves=[]
+        char=self.name[0]
+        i,j=self.getPosition()
+        if i-1>=0 and j-1>=0:
+            if board[i-1][j-1]=='' or board[i-1][j-1][0]!=char:
+                possible_moves.append(str(i-1)+str(j-1))
+
+        if i-1>=0:
+            if board[i-1][j]=='' or board[i-1][j][0]!=char:
+                possible_moves.append(str(i-1)+str(j))
+
+        if i-1>=0 and j+1<8:
+            if board[i-1][j+1]=='' or board[i-1][j+1][0]!=char:
+                possible_moves.append(str(i-1)+str(j+1))
+
+        if j+1<8:
+            if board[i][j+1]=='' or board[i][j+1][0]!=char:
+                possible_moves.append(str(i)+str(j+1))
+
+        if i+1<8 and j+1<8:
+            if board[i+1][j+1]=='' or board[i+1][j+1][0]!=char:
+                possible_moves.append(str(i+1)+str(j+1))
+
+        if i+1<8 and j-1>=0:
+            if board[i+1][j-1]=='' or board[i+1][j-1][0]!=char:
+                possible_moves.append(str(i+1)+str(j-1))
+
+        if i+1<8:
+            if board[i+1][j]=='' or board[i+1][j][0]!=char:
+                possible_moves.append(str(i+1)+str(j))
+
+        if j-1>=0:
+            if board[i][j-1]=='' or board[i][j-1][0]!=char:
+                possible_moves.append(str(i)+str(j-1))
+        return possible_moves
+
+
+class Queen(Piece):
+    def __init__(self,name):
+        Piece.__init__(self,name)
+
+
+    def canMove(self):
+        possible_moves=[]
+        char=self.name[0]
+        i,j=3,3#self.getPosition()
+
+        if i+1<8 and j+1<8:
+            h=j+1
+            for v in range(i+1,board.shape[1]):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h+=1
+            h=j
+
+        if i-1>=0 and j+1<8:
+            h=j+1
+            for v in range(i-1,-1,-1):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h+=1
+            h=j
+
+        if i-1>=0 and j-1>=0:
+            h=j-1
+            for v in range(i-1,-1,-1):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h-=1
+            h=j
+
+        if i+1<8 and j-1>=0:
+            h=j-1
+            for v in range(i+1,board.shape[1]):
+                if board[v][h]!='' and board[v][h][0]==char:
+                    break
+                possible_moves.append(str(v)+str(h))
+                if board[v][h]!='' and board[v][h][0]!=char:
+                    break
+                h-=1
+            h=j
+
+        for v in range(i-1, -1,-1):
+            if v<0:
+                break
+            if board[v][j] != '' and board[v][j][0]==char:
+                break
+            possible_moves.append(str(v)+str(j))
+            if board[v][j] != '' and board[v][j][0]!=char:
+                break
+
+        for v in range(i+1, board_shape[0]):
+            if v>7:
+                break
+            if board[v][j] != '' and board[v][j][0]==char:
+                break
+            possible_moves.append(str(v)+str(j))
+            if board[v][j] != '' and board[v][j][0]!=char:
+                break
+
+        for h in range(j-1, -1,-1):
+            if h<0:
+                break
+            if board[i][h] != '' and board[i][h][0]==char:
+                break
+            possible_moves.append(str(i)+str(h))
+            if board[i][h] != '' and board[i][h][0]!=char:
+                break
+
+        for h in range(j+1, board_shape[1]):
+            if h>7:
+                break
+            if board[i][h] != '' and board[i][h][0]==char:
+                break
+            possible_moves.append(str(i)+str(h))
+            if board[i][h] != '' and board[i][h][0]!=char:
+                break
+        return possible_moves
+
 
 
 # c=Rook('BR1')
 # print(c.name)
 # print(c.getPosition())
 # print(c.canMove())
-b=Knight('BK1')
-#print(b.getName())
-print(b.getPosition())
-print(b.canMove())
+# b=Knight('BK1')
+# #print(b.getName())
+# print(b.getPosition())
+# print(b.canMove())
+# a=Bishop('WB1')
+# print(a.getPosition())
+# print(a.canMove())
+# k=King('WK')
+# print(k.getPosition())
+# print((k.canMove()))
+
+q=Queen('BQ')
+print(q.getPosition())
+print(q.canMove())
