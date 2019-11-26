@@ -241,7 +241,7 @@ class Queen(Piece):
     def canMove(self):
         possible_moves=[]
         char=self.name[0]
-        i,j=3,3#self.getPosition()
+        i,j=self.getPosition()
 
         if i+1<8 and j+1<8:
             h=j+1
@@ -341,6 +341,6 @@ class Queen(Piece):
 # print(k.getPosition())
 # print((k.canMove()))
 
-q=Queen('BQ')
-print(q.getPosition())
-print(q.canMove())
+# q=Queen('BQ')
+# print(q.getPosition())
+# print(q.canMove())
