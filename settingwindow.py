@@ -113,14 +113,12 @@ class Ui_MainWindow(object):
 ##############################################################################
 #my code:
         MainWindow.setWindowTitle('Settings')
-        self.player_add_button.clicked.connect(self.addPlayer)
-        self.h = 0
-        self.time = self.timebox.currentText()
-        self.timebox.currentTextChanged.connect(self.getTime)
-
-
-
-
+        # self.player_add_button.clicked.connect(self.addPlayer)
+        # self.h = 0
+        # self.time = self.timebox.currentText()
+        # self.timebox.currentTextChanged.connect(self.getTime)
+        # from Play_Chess import Setting
+        # self.player_add_button.clicked.connect(Setting.addPlayer(Setting))
 
 
 
@@ -145,19 +143,19 @@ class Ui_MainWindow(object):
 ##############################################################################
 #my code:
 
-    def addPlayer(self):
-        self.h+=1
-        if self.h>2:
-            self.h=1
-        if self.h==1:
-            name=self.namebox.toPlainText()
-            self.player1.setText(name)
-            self.namebox.clear()
-        if self.h==2:
-            name=self.namebox.toPlainText()
-            self.player2.setText(name)
-            self.namebox.clear()
-        print("clicked")
+    # def addPlayer(self):
+    #     self.h+=1
+    #     if self.h>2:
+    #         self.h=1
+    #     if self.h==1:
+    #         name=self.namebox.toPlainText()
+    #         self.player1.setText(name)
+    #         self.namebox.clear()
+    #     if self.h==2:
+    #         name=self.namebox.toPlainText()
+    #         self.player2.setText(name)
+    #         self.namebox.clear()
+    #     print("clicked")
 
     def getTime(self):
         print(self.timebox.currentText())
