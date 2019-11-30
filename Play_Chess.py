@@ -1,8 +1,12 @@
 import sys
 from PyQt5 import QtWidgets
 from settingwindow import Ui_MainWindow
-from asd import Ui_Gameview
+from ChessWindow import Ui_Gameview
 import time
+import Base
+
+
+
 
 
 class Setting:
@@ -38,15 +42,72 @@ class Setting:
 
 
     def openChessWindow(self):
-        self.newWindow=QtWidgets.QMainWindow
+        self.newWindow=QtWidgets.QMainWindow()
         self.ui2=Ui_Gameview()
         self.ui2.setupUi(self.newWindow)
-        self.ui2.whiteTimer.setText(self.timer)
+        self.ui2.whiteTimer.setText(self.time+':00')
+        self.ui2.blackTimer.setText(self.time+':00')
         #self.ui2.gameoverbutton.clicked.connect(self.openWinnerWindow)
+###############################################################
+        self.ui2.label00.clicked.connect(self.showMoves)
+        self.ui2.label01.clicked.connect(self.showMoves)
+        self.ui2.label02.clicked.connect(self.showMoves)
+        self.ui2.label03.clicked.connect(self.showMoves)
+        self.ui2.label04.clicked.connect(self.showMoves)
+        self.ui2.label05.clicked.connect(self.showMoves)
+        self.ui2.label06.clicked.connect(self.showMoves)
+        self.ui2.label07.clicked.connect(self.showMoves)
+        self.ui2.label10.clicked.connect(self.showMoves)
+        self.ui2.label11.clicked.connect(self.showMoves)
+        self.ui2.label12.clicked.connect(self.showMoves)
+        self.ui2.label13.clicked.connect(self.showMoves)
+        self.ui2.label14.clicked.connect(self.showMoves)
+        self.ui2.label15.clicked.connect(self.showMoves)
+        self.ui2.label16.clicked.connect(self.showMoves)
+        self.ui2.label17.clicked.connect(self.showMoves)
+        self.ui2.label20.clicked.connect(self.showMoves)
+        self.ui2.label21.clicked.connect(self.showMoves)
+        self.ui2.label22.clicked.connect(self.showMoves)
+        self.ui2.label23.clicked.connect(self.showMoves)
+        self.ui2.label24.clicked.connect(self.showMoves)
+        self.ui2.label25.clicked.connect(self.showMoves)
+        self.ui2.label26.clicked.connect(self.showMoves)
+        self.ui2.label27.clicked.connect(self.showMoves)
+        self.ui2.label30.clicked.connect(self.showMoves)
+        self.ui2.label31.clicked.connect(self.showMoves)
+        self.ui2.label32.clicked.connect(self.showMoves)
+        self.ui2.label33.clicked.connect(self.showMoves)
+        self.ui2.label34.clicked.connect(self.showMoves)
+        self.ui2.label35.clicked.connect(self.showMoves)
+        self.ui2.label36.clicked.connect(self.showMoves)
+        self.ui2.label37.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label.clicked.connect(self.showMoves)
+        self.ui2.label71.clicked.connect(self.showMoves)
 
 
-
-
+###############################################################
         self.newWindow.show()
 
 
@@ -58,6 +119,14 @@ class Setting:
             print(time_left+'\r', end="")
             time.sleep(1)
             stop-=1
+        return None
+
+
+    def showMoves(self):
+        print('clicked')
+
+
+
 
 app = QtWidgets.QApplication(sys.argv)
 cntrl = Setting()
