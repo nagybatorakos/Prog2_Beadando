@@ -2,30 +2,43 @@ import numpy as np
 
 
 
-board= np.array([['WR1','WK1','WB1','WQ','WK','WB2','WK2','WR2'],
-                 ['WP1','WP2','WP3','WP4','WP5','WP6','WP7','WP8'],
+board= np.array([['WR','WK','WB','WQ','WKing','WB','WK','WR'],
+                 ['','WP','WP','WP','WP','WP','WP','WP'],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
-                 ['BP1','BP2','BP3','BP4','BP5','BP6','BP7','BP8'],
-                 ['BR1','BK1','BB1','BQ','BK','BB2','BK2','BR2']])
+                 ['BP','BP','BP','BP','BP','BP','BP','BP'],
+                 ['BR','BK','BB','BQ','BKing','BB','BK','BR']])
 
 board_shape=board.shape
 
-print(board.shape)
-
+def getname(i ,j):
+    return board[i][j]
 
 # PositionOfPieces={'WR1':'0,0', 'WK1':'0,1','WB1':'0,2','WK':'0,3','WQ':'0,3','WB2','WK2','WR2'],
 #                  ['WP1','WP2','WP3','WP4','WP5','WP6','WP7','WP8'}
+
+
+
+from functools import partial
 
 
 class Piece:
     def __init__(self,name):
         self.name=name
 
-    def getName(self):
-        return self.getName()
+    def canMove(self, i, j):
+        if self.name[1]=='R':
+            return Rook.canMove(i, j)
+        elif self.name[1:]=='King':
+            return King.canMove(i, j)
+        elif self.name[1]=='B':
+            return Bishop.canMove(i, j)
+        elif self.name[1]=='Q':
+            return Queen.canMove(i, j)
+        elif self.name[1:]=='K':
+            return Knight.canMove(i, j)
 
     def getPosition(self):
         for i in range(board_shape[0]):
@@ -37,14 +50,14 @@ class Rook(Piece):
 
     # pieces=['WR1','WR2','BR1','BR2']
 
-    def __init__(self, name):
-        Piece.__init__(self, name)
+    def __init__(self):
+        Piece.__init__(self)
 
 
-    def canMove(self):
+    def canMove(self, i, j):
         possible_moves=[]
         char=self.name[0]
-        i,j= self.getPosition()
+        #i,j= self.getPosition()
 
         for v in range(i-1, -1,-1):
             if v<0:
@@ -87,13 +100,13 @@ class Rook(Piece):
 
 class Knight(Piece):
 
-    def __init__(self,name):
-        Piece.__init__(self,name)
+    def __init__(self):
+        Piece.__init__(self)
 
-    def canMove(self):
+    def canMove(self, i, j):
         possible_moves=[]
         char=self.name[0]
-        i,j=self.getPosition()
+        #i,j=self.getPosition()
 
         if i-2>=0 and j-1>=0:
             if board[i-2][j-1]=='' or board[i-2][j-1][0]!=char:
@@ -134,13 +147,13 @@ class Knight(Piece):
 
 class Bishop(Piece):
 
-    def __init__(self,name):
-        Piece.__init__(self,name)
+    def __init__(self):
+        Piece.__init__(self)
 
-    def canMove(self):
+    def canMove(self, i, j):
         possible_moves=[]
         char=self.name[0]
-        i,j=self.getPosition()
+        #i,j=self.getPosition()
 
         if i+1<8 and j+1<8:
             h=j+1
@@ -192,13 +205,13 @@ class Bishop(Piece):
 
 
 class King(Piece):
-    def __init__(self,name):
-        Piece.__init__(self,name)
+    def __init__(self):
+        Piece.__init__(self)
 
-    def canMove(self):
+    def canMove(self, i, j):
         possible_moves=[]
         char=self.name[0]
-        i,j=self.getPosition()
+        #i,j=self.getPosition()
         if i-1>=0 and j-1>=0:
             if board[i-1][j-1]=='' or board[i-1][j-1][0]!=char:
                 possible_moves.append(str(i-1)+str(j-1))
@@ -234,14 +247,14 @@ class King(Piece):
 
 
 class Queen(Piece):
-    def __init__(self,name):
-        Piece.__init__(self,name)
+    def __init__(self):
+        Piece.__init__(self)
 
 
-    def canMove(self):
+    def canMove(self, i, j):
         possible_moves=[]
         char=self.name[0]
-        i,j=self.getPosition()
+        #i,j=self.getPosition()
 
         if i+1<8 and j+1<8:
             h=j+1
