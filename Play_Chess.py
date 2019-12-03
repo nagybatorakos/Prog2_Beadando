@@ -29,6 +29,7 @@ class Setting:
         self.prevLs=[]
         self.prevN=''
         self.colors={}
+        self.turn='W'
 
         self.MainWindow.show()
 
@@ -160,7 +161,7 @@ class Setting:
         y=int(n[1])
         ls= canMove(x,y)
         if self.zold==False:
-            if getname(x, y)!='':
+            if getname(x, y)!='' and getname(x,y)[0]==self.turn:
                 if ls != []:
                     self.zold=True
                     for i in range(len(ls)):
@@ -183,14 +184,22 @@ class Setting:
                 board[i][j]=''
                 board[x][y]=self.prevName
                 for i in range(len(self.prevLs)):
-                    print(self.prevLs[i], self.colors[self.prevLs[i]].name())
                     which=self.poz[self.prevLs[i]]
                     which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
                     #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
                     #which.setStyleSheet('')
 
                 self.zold=False
+                if self.turn=='W':
+                    self.turn='B'
+                elif self.turn=='B':
+                    self.turn='W'
 
+        elif self.zold and n not in self.prevLs:
+            self.zold=False
+            for i in range(len(self.prevLs)):
+                    which=self.poz[self.prevLs[i]]
+                    which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
 
 
 
