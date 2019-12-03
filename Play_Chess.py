@@ -7,6 +7,7 @@ from Base import *
 from functools import partial
 from PyQt5.QtWidgets import QWidget
 #from ff import Widget
+from PyQt5.QtGui import QColor
 
 class Setting:
     def __init__(self):
@@ -27,6 +28,7 @@ class Setting:
         self.prevLab=None
         self.prevLs=[]
         self.prevN=''
+        self.colors={}
 
         self.MainWindow.show()
 
@@ -161,13 +163,17 @@ class Setting:
             if getname(x, y)!='':
                 if ls != []:
                     self.zold=True
-                    for i in ls:
-                        which=self.poz[i]
-                        which.setStyleSheet('border: 7px inset green;')
+                    for i in range(len(ls)):
+                        which=self.poz[ls[i]]
+                        self.colors[ls[i]]=which.palette().button().color()
+                        #self.colors.append(which.palette().button().color())
+                        which.setStyleSheet('background-color:'+which.palette().button().color().name()+';'+'border: 7px inset green;')
+
                     self.prevLab=label
                     self.prevLs=ls
                     self.prevName=getname(x,y)
                     self.prevN=n
+
         elif self.zold and n in self.prevLs:
             if self.prevN!='':
                 i=int(self.prevN[0])
@@ -176,8 +182,11 @@ class Setting:
                 self.prevLab.clear()
                 board[i][j]=''
                 board[x][y]=self.prevName
-                for i in self.prevLs:
-                    which=self.poz[i]
+                for i in range(len(self.prevLs)):
+                    print(self.prevLs[i], self.colors[self.prevLs[i]].name())
+                    which=self.poz[self.prevLs[i]]
+                    which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
+                    #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
                     #which.setStyleSheet('')
 
                 self.zold=False
