@@ -160,6 +160,7 @@ class Setting:
         x=int(n[0])
         y=int(n[1])
         ls= canMove(x,y)
+        print(ls)
         if self.zold==False:
             if getname(x, y)!='' and getname(x,y)[0]==self.turn:
                 if ls != []:

@@ -2,14 +2,14 @@ import numpy as np
 
 
 
-board= np.array([['WR','WK','WB','WQ','WKing','WB','WK','WR'],
+board= np.array([['WR','WK','WB','WKing','WQ','WB','WK','WR'],
                  ['','WP','WP','WP','WP','WP','WP','WP'],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['BP','BP','BP','BP','BP','BP','BP','BP'],
-                 ['BR','BK','BB','BQ','BKing','BB','BK','BR']])
+                 ['BR','BK','BB','BKing','BQ','BB','BK','BR']])
 
 board_shape=board.shape
 
@@ -156,6 +156,8 @@ class Bishop(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h+=1
+                if h==8:
+                    break
             h=j
 
         if i-1>=0 and j+1<8:
@@ -167,7 +169,8 @@ class Bishop(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h+=1
-
+                if h==8:
+                    break
             h=j
 
         if i-1>=0 and j-1>=0:
@@ -179,6 +182,8 @@ class Bishop(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h-=1
+                if h==-1:
+                    break
             h=j
 
         if i+1<8 and j-1>=0:
@@ -190,6 +195,8 @@ class Bishop(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h-=1
+                if h==-1:
+                    break
             h=j
         return possible_moves
 
@@ -257,6 +264,8 @@ class Queen(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h+=1
+                if h==8:
+                    break
             h=j
 
         if i-1>=0 and j+1<8:
@@ -268,6 +277,8 @@ class Queen(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h+=1
+                if h==8:
+                    break
             h=j
 
         if i-1>=0 and j-1>=0:
@@ -279,6 +290,8 @@ class Queen(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h-=1
+                if h==-1:
+                    break
             h=j
 
         if i+1<8 and j-1>=0:
@@ -290,6 +303,8 @@ class Queen(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h-=1
+                if h==-1:
+                    break
             h=j
 
         for v in range(i-1, -1,-1):
