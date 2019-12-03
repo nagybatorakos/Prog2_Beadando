@@ -28,17 +28,7 @@ class Piece:
     def __init__(self,name):
         self.name=name
 
-    def canMove(self, i, j):
-        if self.name[1]=='R':
-            return Rook.canMove(i, j)
-        elif self.name[1:]=='King':
-            return King.canMove(i, j)
-        elif self.name[1]=='B':
-            return Bishop.canMove(i, j)
-        elif self.name[1]=='Q':
-            return Queen.canMove(i, j)
-        elif self.name[1:]=='K':
-            return Knight.canMove(i, j)
+
 
     def getPosition(self):
         for i in range(board_shape[0]):
@@ -50,8 +40,9 @@ class Rook(Piece):
 
     # pieces=['WR1','WR2','BR1','BR2']
 
-    def __init__(self):
-        Piece.__init__(self)
+    def __init__(self,name):
+        Piece.__init__(self, name)
+        self.name=name
 
 
     def canMove(self, i, j):
@@ -100,8 +91,8 @@ class Rook(Piece):
 
 class Knight(Piece):
 
-    def __init__(self):
-        Piece.__init__(self)
+    def __init__(self,name):
+        Piece.__init__(self, name)
 
     def canMove(self, i, j):
         possible_moves=[]
@@ -147,8 +138,8 @@ class Knight(Piece):
 
 class Bishop(Piece):
 
-    def __init__(self):
-        Piece.__init__(self)
+    def __init__(self,name):
+        Piece.__init__(self,name)
 
     def canMove(self, i, j):
         possible_moves=[]
@@ -205,8 +196,8 @@ class Bishop(Piece):
 
 
 class King(Piece):
-    def __init__(self):
-        Piece.__init__(self)
+    def __init__(self,name):
+        Piece.__init__(self,name)
 
     def canMove(self, i, j):
         possible_moves=[]
@@ -247,8 +238,8 @@ class King(Piece):
 
 
 class Queen(Piece):
-    def __init__(self):
-        Piece.__init__(self)
+    def __init__(self,name):
+        Piece.__init__(self,name)
 
 
     def canMove(self, i, j):
@@ -338,9 +329,9 @@ class Queen(Piece):
         return possible_moves
 
 
-
+#
 # c=Rook('BR1')
-# print(c.name)
+# #print(c.name)
 # print(c.getPosition())
 # print(c.canMove())
 # b=Knight('BK1')

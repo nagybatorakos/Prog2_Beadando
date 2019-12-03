@@ -23,3 +23,6 @@ class Widget(QWidget):
 
         hild = self.findChild(QLabel, "label{}".format(n))
         return hild
+
+import numpy as np
+
