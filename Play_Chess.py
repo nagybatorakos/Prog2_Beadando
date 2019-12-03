@@ -56,20 +56,20 @@ class Setting:
         self.ui2.whiteTimer.setText(self.time+':00')
         self.ui2.blackTimer.setText(self.time+':00')
 
-        self.poz={'00': self.ui2.label20,'01': self.ui2.label01, '02':self.ui2.label02, '03':self.ui2.label03, '04':self.ui2.label04, '05':self.ui2.label05, '06':self.ui2.label06, '07':self.ui2.label07,
+        self.poz={'00': self.ui2.label00,'01': self.ui2.label01, '02':self.ui2.label02, '03':self.ui2.label03, '04':self.ui2.label04, '05':self.ui2.label05, '06':self.ui2.label06, '07':self.ui2.label07,
                   '10':self.ui2.label10, '11':self.ui2.label11, '12':self.ui2.label12, '13':self.ui2.label13, '14':self.ui2.label14, '15':self.ui2.label15, '16':self.ui2.label16, '17':self.ui2.label17,
         '20':self.ui2.label20, '21':self.ui2.label21, '22':self.ui2.label22, '23':self.ui2.label23, '24':self.ui2.label24, '25':self.ui2.label25, '26':self.ui2.label26, '27':self.ui2.label27,
         '30':self.ui2.label30, '31':self.ui2.label31, '32':self.ui2.label32, '33':self.ui2.label33, '34':self.ui2.label34, '35':self.ui2.label35, '36':self.ui2.label36, '37':self.ui2.label37,
          '40':self.ui2.label40, '41':self.ui2.label41, '42':self.ui2.label42, '43':self.ui2.label43, '44':self.ui2.label44, '45':self.ui2.label45,'46':self.ui2.label46, '47':self.ui2.label47,
         '50':self.ui2.label50, '51':self.ui2.label51, '52':self.ui2.label52, '53':self.ui2.label53, '54':self.ui2.label54, '55':self.ui2.label55, '56':self.ui2.label56, '57':self.ui2.label57,
         '60':self.ui2.label60, '61':self.ui2.label61, '62':self.ui2.label62, '63':self.ui2.label63, '64':self.ui2.label64, '65':self.ui2.label65, '66':self.ui2.label66, '67':self.ui2.label67,
-        '70':self.ui2.label70, '71':self.ui2.label71, '72':self.ui2.label72, '73':self.ui2.label73, '74':self.ui2.label74, '75':self.ui2.label75, '76':self.ui2.label75, '77':self.ui2.label77}
+        '70':self.ui2.label70, '71':self.ui2.label71, '72':self.ui2.label72, '73':self.ui2.label73, '74':self.ui2.label74, '75':self.ui2.label75, '76':self.ui2.label76, '77':self.ui2.label77}
 
 
         #self.ui2.gameoverbutton.clicked.connect(self.openWinnerWindow)
 ###############################################################
 
-        self.ui2.label00.clicked.connect(partial(self.showMoves,'00',self.ui2.label20))
+        self.ui2.label00.clicked.connect(partial(self.showMoves,'00',self.ui2.label00))
         self.ui2.label01.clicked.connect(partial(self.showMoves,'01',self.ui2.label01))
         self.ui2.label02.clicked.connect(partial(self.showMoves,'02',self.ui2.label02))
         self.ui2.label03.clicked.connect(partial(self.showMoves,'03',self.ui2.label03))
@@ -159,7 +159,7 @@ class Setting:
         ls= canMove(x,y)
         if self.zold==False:
             if getname(x, y)!='':
-                if len(ls)>0:
+                if ls != []:
                     self.zold=True
                     for i in ls:
                         which=self.poz[i]
@@ -167,17 +167,20 @@ class Setting:
                     self.prevLab=label
                     self.prevLs=ls
                     self.prevName=getname(x,y)
+                    self.prevN=n
         elif self.zold and n in self.prevLs:
-            where=self.poz[n]
-            name=self.prevName
-            piece=self.pic[name]
-            where.setPixmap(QtGui.QPixmap(piece))
-            self.prevLab.clear()
-            for i in self.prevLs:
-                which=self.poz[i]
-                #which.setStyleSheet('border: 1px inset black;')
+            if self.prevN!='':
+                i=int(self.prevN[0])
+                j=int(self.prevN[1])
+                label.setPixmap(QtGui.QPixmap(self.pic[self.prevName]))
+                self.prevLab.clear()
+                board[i][j]=''
+                board[x][y]=self.prevName
+                for i in self.prevLs:
+                    which=self.poz[i]
+                    #which.setStyleSheet('')
 
-            #self.zold=False
+                self.zold=False
 
 
 

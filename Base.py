@@ -167,6 +167,7 @@ class Bishop(Piece):
                 if board[v][h]!='' and board[v][h][0]!=char:
                     break
                 h+=1
+
             h=j
 
         if i-1>=0 and j-1>=0:
