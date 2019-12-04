@@ -23,13 +23,15 @@ class Setting:
         #self.pic={'00':'WR', '01':'WK', '02':'WB', '03':'WKing', '04':'WQ', '05':'WB' , '06':'WK' , '07':'WR' , '10':'WP' , '11':'WP' , '12':'WP' , '13':'WP' , '14': 'WP', '15': 'WP', '16':'WP' , '17':'WP' , '20':'', '21': '', '22': '', '23': '', '24': '', '25': '', '26': '', '27': '',
         #'30': '', '31': '', '32': '', '33': '', '34': '', '35': '', '36': '', '37': '', '40': '', '41': '', '42': '', '43': '', '44': '', '45': '', '46': '', '47': '', '50': '', '51': '', '52': '', '53':'', '54':'' , '55': '', '56': '', '57': '', '60': '', '61': '', '62': '', '63': '', '64': '', '65': '', '66': '', '67': '', '70': '', '71': '', '72': '', '73': '', '74': '', '75':'' , '76': '', '77': ''}
         self.pic={'WR':'WR.png', 'WK':'WK.png' , 'WKing':'WKing.png', 'WB':'WB.png', 'WP':'WP.png' , 'WQ':'WQ.png',
-                  'BR':'BR.png', 'BK':'BK.png' , 'BKing':'BKing.png', 'BB':'BB.png', 'BP':'BP.png' , 'BQ':'BQ.png'}
+                  'BR':'BR.png', 'BK':'BK.png' , 'BKing':'BKing.png', 'BB':'BB.png', 'BP':'BP1.png' , 'BQ':'BQ.png'}
+
         self.zold=False
         self.prevLab=None
         self.prevLs=[]
         self.prevN=''
         self.colors={}
         self.turn='W'
+        self.outofPlay=[]
 
         self.MainWindow.show()
 
@@ -67,7 +69,6 @@ class Setting:
         '50':self.ui2.label50, '51':self.ui2.label51, '52':self.ui2.label52, '53':self.ui2.label53, '54':self.ui2.label54, '55':self.ui2.label55, '56':self.ui2.label56, '57':self.ui2.label57,
         '60':self.ui2.label60, '61':self.ui2.label61, '62':self.ui2.label62, '63':self.ui2.label63, '64':self.ui2.label64, '65':self.ui2.label65, '66':self.ui2.label66, '67':self.ui2.label67,
         '70':self.ui2.label70, '71':self.ui2.label71, '72':self.ui2.label72, '73':self.ui2.label73, '74':self.ui2.label74, '75':self.ui2.label75, '76':self.ui2.label76, '77':self.ui2.label77}
-
 
         #self.ui2.gameoverbutton.clicked.connect(self.openWinnerWindow)
 ###############################################################
@@ -182,6 +183,11 @@ class Setting:
                 j=int(self.prevN[1])
                 label.setPixmap(QtGui.QPixmap(self.pic[self.prevName]))
                 self.prevLab.clear()
+
+                if getname(x,y)!='':
+                    self.outofPlay.append(getname(x,y))
+                    print(self.outofPlay)
+
                 board[i][j]=''
                 board[x][y]=self.prevName
                 for i in range(len(self.prevLs)):
@@ -189,6 +195,7 @@ class Setting:
                     which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
                     #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
                     #which.setStyleSheet('')
+
 
                 self.zold=False
                 if self.turn=='W':
@@ -201,6 +208,8 @@ class Setting:
             for i in range(len(self.prevLs)):
                     which=self.poz[self.prevLs[i]]
                     which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
+
+
 
 
 
@@ -221,6 +230,9 @@ def canMove(x, y):
             return name.canMove(x, y)
         elif name[1:]=='K':
             name=Knight(name)
+            return name.canMove(x, y)
+        elif name[1]=='P':
+            name=Pawn(name)
             return name.canMove(x, y)
 
 

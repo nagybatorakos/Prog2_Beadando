@@ -345,6 +345,46 @@ class Queen(Piece):
         return possible_moves
 
 
+class Pawn(Piece):
+    def __init__(self,name):
+        Piece.__init__(self,name)
+
+    def canMove(self, i, j):
+        possible_moves=[]
+        char=self.name[0]
+        #i,j=self.getPosition([0])
+        # <>[]
+
+        if char == 'W':
+            if i==1 and board[i + 2][j] == '':
+                possible_moves.append(str(i+2) + str(j))
+
+            if i+1<8:
+                if board[i+1][j]=='':
+                    possible_moves.append(str(i+1)+str(j))
+
+            if j-1>=0 and board[i+1][j-1]!='' and board[i+1][j-1][0] =='B':
+                possible_moves.append(str(i+1)+str(j-1))
+            if j+1<8 and board[i+1][j+1]!='' and board[i+1][j+1][0] =='B':
+                possible_moves.append(str(i+1)+str(j+1))
+
+        if char == 'B':
+            if i ==6:
+                if board[i - 2][j] == '':
+                    possible_moves.append(str(i-2) + str(j))
+            if i-1>=0:
+                if board[i-1][j]=='':
+                    possible_moves.append(str(i-1)+str(j))
+
+            if j-1>=0 and board[i-1][j-1]!='' and board[i-1][j-1][0] =='W':
+                possible_moves.append(str(i-1)+str(j-1))
+
+            if j+1<8 and board[i-1][j+1]!='' and board[i-1][j+1][0] =='W':
+                possible_moves.append(str(i-1)+str(j+1))
+
+        return possible_moves
+
+
 #
 # c=Rook('BR1')
 # #print(c.name)
