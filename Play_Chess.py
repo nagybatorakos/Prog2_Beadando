@@ -8,6 +8,9 @@ from functools import partial
 from PyQt5.QtWidgets import QWidget
 #from ff import Widget
 from PyQt5.QtGui import QColor
+from selectwindow import Ui_Selection
+from PyQt5.QtWidgets import QListWidgetItem
+from PyQt5.QtWidgets import QMessageBox
 
 class Setting:
     def __init__(self):
@@ -32,7 +35,7 @@ class Setting:
         self.colors={}
         self.turn='W'
         self.outofPlay=[]
-
+        self.selected='P'
         self.MainWindow.show()
 
     def addPlayer(self):
@@ -161,7 +164,6 @@ class Setting:
         x=int(n[0])
         y=int(n[1])
         ls= canMove(x,y)
-        print(ls)
         if self.zold==False:
             if getname(x, y)!='' and getname(x,y)[0]==self.turn:
                 if ls != []:
@@ -184,9 +186,8 @@ class Setting:
                 label.setPixmap(QtGui.QPixmap(self.pic[self.prevName]))
                 self.prevLab.clear()
 
-                if getname(x,y)!='':
+                if getname(x,y)!='' and getname(x, y)[1]!='P':
                     self.outofPlay.append(getname(x,y))
-                    print(self.outofPlay)
 
                 board[i][j]=''
                 board[x][y]=self.prevName
@@ -196,6 +197,8 @@ class Setting:
                     #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
                     #which.setStyleSheet('')
 
+                if (x==0 or x==7) and self.prevName[1]=='P':
+                    print(self.openSelection( x, y, label))
 
                 self.zold=False
                 if self.turn=='W':
@@ -210,8 +213,44 @@ class Setting:
                     which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
 
 
+    def openSelection(self, x, y, label):
+        self.anotherWindow=QtWidgets.QMainWindow()
+        self.ui3=Ui_Selection()
+        self.ui3.setupUi(self.anotherWindow)
+        # msg = QMessageBox()
+        # msg.setWindowTitle("")
+        # msg.setText("You can replace yor pawn with one of these pieces.")
+        # msg.setIcon(QMessageBox.Information)
+        # msg.setStandardButtons(QMessageBox.Ok)
+        self.ui3.listWidget.currentItemChanged.connect(partial(self.replace,x,y,label))
+        self.ui3.selectbutton.clicked.connect(self.anotherWindow.close)
+
+        for i in self.outofPlay:
+            item=QListWidgetItem()
+
+            if i[0]!=self.turn:
+                continue
+            if i[1]=='Q':
+                item.setText('Queen ♛')
+            if i[1]=='R':
+                item.setText('Rook ♜')
+            if i[1]=='K':
+                item.setText('Knight ♞')
+            if i[1]=='B':
+                item.setText('Bishop ♝')
+            self.ui3.listWidget.addItem(item)
+            self.ui3.listWidget.setCurrentItem(item)
 
 
+        self.anotherWindow.show()
+
+
+    def replace(self,x,y,label):
+        t={'W':'B','B':'W'}
+        curr= self.ui3.listWidget.currentItem()
+        self.selected=t[self.turn]+curr.text()[0]
+        label.setPixmap(QtGui.QPixmap(self.pic[self.selected]))
+        board[x][y]=self.selected
 
 def canMove(x, y):
     name=getname(x,y)

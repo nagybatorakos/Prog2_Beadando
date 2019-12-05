@@ -356,7 +356,7 @@ class Pawn(Piece):
         # <>[]
 
         if char == 'W':
-            if i==1 and board[i + 2][j] == '':
+            if i==1 and board[i + 2][j] == '' and board[i+1][j]=='':
                 possible_moves.append(str(i+2) + str(j))
 
             if i+1<8:
@@ -370,7 +370,7 @@ class Pawn(Piece):
 
         if char == 'B':
             if i ==6:
-                if board[i - 2][j] == '':
+                if board[i - 2][j] == '' and board[i-1][j]=='':
                     possible_moves.append(str(i-2) + str(j))
             if i-1>=0:
                 if board[i-1][j]=='':
