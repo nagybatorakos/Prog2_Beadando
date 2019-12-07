@@ -19,7 +19,8 @@ def getname(i ,j):
 # PositionOfPieces={'WR1':'0,0', 'WK1':'0,1','WB1':'0,2','WK':'0,3','WQ':'0,3','WB2','WK2','WR2'],
 #                  ['WP1','WP2','WP3','WP4','WP5','WP6','WP7','WP8'}
 
-
+allW=[]
+allB=[]
 
 from functools import partial
 
@@ -34,7 +35,7 @@ class Piece:
         for i in range(board_shape[0]):
             for j in range(board_shape[1]):
                 if board[i][j] == self.name:
-                    return i,j
+                    return str(i)+str(j)
 
 class Rook(Piece):
 
@@ -130,6 +131,7 @@ class Knight(Piece):
         if i-1>=0 and j+2<8:
             if board[i-1][j+2]=='' or board[i-1][j+2][0]!=char:
                 possible_moves.append(str(i-1)+str(j+2))
+
 
         return possible_moves
 
@@ -242,6 +244,19 @@ class King(Piece):
         if j-1>=0:
             if board[i][j-1]=='' or board[i][j-1][0]!=char:
                 possible_moves.append(str(i)+str(j-1))
+
+        if len(possible_moves)>0:
+            if char=='W':
+                for i in possible_moves:
+                    for k in allB:
+                        if i==k:
+                            possible_moves.remove(i)
+            if char=='B':
+                for i in possible_moves:
+                    for k in allW:
+                        if i==k:
+                            possible_moves.remove(i)
+
         return possible_moves
 
 
