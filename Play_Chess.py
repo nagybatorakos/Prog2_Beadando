@@ -5,8 +5,6 @@ from ChessWindow import Ui_Gameview
 import time
 from Base import *
 from functools import partial
-from PyQt5.QtWidgets import QWidget
-#from ff import Widget
 from PyQt5.QtGui import QColor
 from selectwindow import Ui_Selection
 from PyQt5.QtWidgets import QListWidgetItem
@@ -23,8 +21,6 @@ class Setting:
         self.ui.timebox.currentTextChanged.connect(self.getTime)
         self.ui.playbutton.clicked.connect(self.openChessWindow)
 
-        #self.pic={'00':'WR', '01':'WK', '02':'WB', '03':'WKing', '04':'WQ', '05':'WB' , '06':'WK' , '07':'WR' , '10':'WP' , '11':'WP' , '12':'WP' , '13':'WP' , '14': 'WP', '15': 'WP', '16':'WP' , '17':'WP' , '20':'', '21': '', '22': '', '23': '', '24': '', '25': '', '26': '', '27': '',
-        #'30': '', '31': '', '32': '', '33': '', '34': '', '35': '', '36': '', '37': '', '40': '', '41': '', '42': '', '43': '', '44': '', '45': '', '46': '', '47': '', '50': '', '51': '', '52': '', '53':'', '54':'' , '55': '', '56': '', '57': '', '60': '', '61': '', '62': '', '63': '', '64': '', '65': '', '66': '', '67': '', '70': '', '71': '', '72': '', '73': '', '74': '', '75':'' , '76': '', '77': ''}
         self.pic={'WR':'WR.png', 'WK':'WK.png' , 'WKing':'WKing.png', 'WB':'WB.png', 'WP':'WP.png' , 'WQ':'WQ.png',
                   'BR':'BR.png', 'BK':'BK.png' , 'BKing':'BKing.png', 'BB':'BB.png', 'BP':'BP1.png' , 'BQ':'BQ.png'}
 
@@ -40,6 +36,8 @@ class Setting:
         self.sakkmatt=''
         self.mattLs=[]
         self.inverse={'W':'B','B':'W'}
+        self.allW=[]
+        self.allB=[]
 
         self.MainWindow.show()
 
@@ -171,6 +169,7 @@ class Setting:
         ls= []
         ls0=canMove(x,y)
         k=King(self.inverse[self.turn]+'King')
+        print(self.searchall())
 
 
         if getname(x,y)!='' and len(ls0)>0 and k.getPosition() in ls0:
@@ -183,7 +182,18 @@ class Setting:
 
         if self.matt==self.turn and ls0!=[] and getname(x,y)!='':
             if getname(x,y)[1:]=='King':
-                ls=ls0
+                if getname(x,y)[0]=='W':
+                    for i in ls0:
+                        if i not in self.allB:
+                            ls.append(i)
+
+                elif getname(x,y)[0]=='B':
+                    for i in ls0:
+                        if i not in self.allW:
+                            ls.append(i)
+
+
+
             else:
                 for i in ls0:
                     if i in self.mattLs:
@@ -194,7 +204,7 @@ class Setting:
 
         if self.zold==False:
             if getname(x, y)!='' and getname(x,y)[0]==self.turn:
-                if ls0 != []:
+                if ls != []:
                     self.zold=True
                     for i in range(len(ls)):
                         which=self.poz[ls[i]]
@@ -220,24 +230,20 @@ class Setting:
 
                 board[i][j]=''
                 board[x][y]=self.prevName
-                print(searchall())
+                print(self.searchall())
                 print(self.searchChain(x,y))
 
                 for i in range(len(self.prevLs)):
                     which=self.poz[self.prevLs[i]]
                     which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
-                    #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
-                    #which.setStyleSheet('')
+
 
                 if (x==0 or x==7) and self.prevName[1]=='P':
                     print(self.openSelection( x, y, label))
 
                 self.zold=False
                 self.turn=self.inverse[self.turn]
-                # if self.turn=='W':
-                #     self.turn='B'
-                # elif self.turn=='B':
-                #     self.turn='W'
+
 
         elif self.zold and n not in self.prevLs:
             self.zold=False
@@ -245,7 +251,7 @@ class Setting:
                 which=self.poz[self.prevLs[i]]
                 which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
 
-        # if self.matt==True:
+
 
 
 
@@ -258,7 +264,7 @@ class Setting:
         # msg.setText("You can replace yor pawn with one of these pieces.")
         # msg.setIcon(QMessageBox.Information)
         # msg.setStandardButtons(QMessageBox.Ok)
-        self.ui3.listWidget.currentItemChanged.connect(partial(self.replace,x,y,label))
+        self.ui3.selectbutton.clicked.connect(partial(self.replace,x,y,label))
         self.ui3.selectbutton.clicked.connect(self.anotherWindow.close)
 
         for i in self.outofPlay:
@@ -282,10 +288,14 @@ class Setting:
 
 
     def replace(self,x,y,label):
+        print(self.outofPlay)
         curr= self.ui3.listWidget.currentItem()
         self.selected=self.inverse[self.turn]+curr.text()[0]
         label.setPixmap(QtGui.QPixmap(self.pic[self.selected]))
         board[x][y]=self.selected
+
+        self.outofPlay.remove(self.selected)
+        print(self.outofPlay)
 
 
     def searchChain(self, x,y):
@@ -308,47 +318,47 @@ class Setting:
             ls.remove(k.getPosition())
             if x == i:
                 if y>j:
-                    for i in range(j,y):
-                        if str(x)+str(i) in ls:
-                            self.mattLs.append(str(x)+str(i))
+                    for b in range(j,y):
+                        if str(x)+str(b) in ls:
+                            self.mattLs.append(str(x)+str(b))
                 elif j>y:
-                    for i in range(y,j,-1):
-                        if str(x)+str(i) in ls:
-                            self.mattLs.append(str(x)+str(i))
+                    for b in range(y,j,-1):
+                        if str(x)+str(b) in ls:
+                            self.mattLs.append(str(x)+str(b))
             elif y==j:
                 if x>i:
-                    for i in range(x,i,-1):
-                        if str(x)+str(i) in ls:
-                            self.mattLs.append(str(x)+str(i))
+                    for b in range(x,i,-1):
+                        if str(b)+str(i) in ls:
+                            self.mattLs.append(str(b)+str(j))
                 if i>x:
-                    for i in range(x,i):
-                        if str(x)+str(i) in ls:
-                            self.mattLs.append(str(x)+str(i))
+                    for b in range(x,i):
+                        if str(b)+str(i) in ls:
+                            self.mattLs.append(str(b)+str(j))
             elif x>i:
                 if y>j:
                     h=x-1
-                    for i in range(y-1,j,-1):
-                        if str(h)+str(i) in ls:
-                            self.mattLs.append(str(h)+str(i))
+                    for b in range(y-1,j,-1):
+                        if str(h)+str(b) in ls:
+                            self.mattLs.append(str(h)+str(b))
                         h-=1
                 if j>y:
                     h=x-1
-                    for i in range(y+1,j):
-                        if str(h)+str(i) in ls:
-                            self.mattLs.append(str(h)+str(i))
+                    for b in range(y+1,j):
+                        if str(h)+str(b) in ls:
+                            self.mattLs.append(str(h)+str(b))
                         h-=1
             elif i>x:
                 if y>j:
                     h=x+1
-                    for i in range(y-1,j,-1):
-                        if str(h)+str(i) in ls:
-                            self.mattLs.append(str(h)+str(i))
+                    for b in range(y-1,j,-1):
+                        if str(h)+str(b) in ls:
+                            self.mattLs.append(str(h)+str(b))
                         h+=1
                 if j>y:
                     h=x+1
-                    for i in range(y+1,j):
-                        if str(h)+str(i) in ls:
-                            self.mattLs.append(str(h)+str(i))
+                    for b in range(y+1,j):
+                        if str(h)+str(b) in ls:
+                            self.mattLs.append(str(h)+str(b))
                         h+=1
 
             if k.getPosition() in self.mattLs:
@@ -356,8 +366,22 @@ class Setting:
             if str(x)+str(y) not in self.mattLs:
                 self.mattLs.append(str(x)+str(y))
 
-            print(searchall(), self.checkmate())
+
             print(self.mattLs)
+
+            c=0
+            for u in self.mattLs:
+                if self.turn=='W':
+                    for h in self.allB:
+                        if u==h:
+                            c+=1
+                elif self.turn=='B':
+                    for h in self.allW:
+                        if u==h:
+                            c+=1
+            if c==0 and canMove(i,j)==[]:
+                self.sakkmatt=True
+
 
             if self.sakkmatt!=True:
                 msg.setText("Check!")
@@ -367,26 +391,25 @@ class Setting:
                     msg.setText('Checkmate! '+self.ui.player1.text()+' wins!')
                 else:
                     msg.setText('Checkmate! '+self.ui.player2.text()+' wins!')
-
+                self.newWindow.close()
             msg.exec()
-            self.newWindow.close()
-    def checkmate(self):
-        k=0
-        if self.matt=='B':
-            for i in self.mattLs:
-                for j in allB:
-                    if i==j:
-                        k+=1
 
-        elif self.matt=='W':
-            for i in self.mattLs:
-                for j in allW:
-                    if i==j:
-                        k+=1
-        if k==0:
-            self.sakkmatt=True
 
-        print(self.sakkmatt)
+    def searchall(self):
+        self.allW=[]
+        self.allB=[]
+        for i in range(board_shape[0]):
+            for j in range(board_shape[1]):
+                if getname(i,j)!='' and getname(i, j)[0]=='W':
+                    for k in canMove(i, j):
+                        if k not in self.allW:
+                            self.allW.append(k)
+                if getname(i,j)!='' and getname(i, j)[0]=='B':
+                    for k in canMove(i, j):
+                        if k not in self.allB:
+                            self.allB.append(k)
+
+
 
 def canMove(x, y):
     name=getname(x,y)
@@ -397,17 +420,7 @@ def canMove(x, y):
         elif name[1:]=='King':
             name=King(name)
             ls=[]
-
-            if getname(x,y)[0]=='W':
-                for i in name.canMove(x, y):
-                    if i not in allB:
-                        ls.append(i)
-
-            elif getname(x,y)[0]=='B':
-                for i in name.canMove(x, y):
-                    if i not in allW:
-                        ls.append(i)
-            return ls
+            return name.canMove(x,y)
         elif name[1]=='B':
             name=Bishop(name)
             return name.canMove(x,y)
@@ -424,21 +437,6 @@ def canMove(x, y):
 
     # def mattAppend()
 
-
-
-def searchall():
-    allB=[]
-    allW=[]
-    for i in range(board_shape[0]):
-        for j in range(board_shape[1]):
-            if getname(i,j)!='' and getname(i, j)[0]=='W':
-                for k in canMove(i, j):
-                    if k not in allW:
-                        allW.append(k)
-            if getname(i,j)!='' and getname(i, j)[0]=='B':
-                for k in canMove(i, j):
-                    if k not in allB:
-                        allB.append(k)
 
 
 

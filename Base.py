@@ -19,8 +19,7 @@ def getname(i ,j):
 # PositionOfPieces={'WR1':'0,0', 'WK1':'0,1','WB1':'0,2','WK':'0,3','WQ':'0,3','WB2','WK2','WR2'],
 #                  ['WP1','WP2','WP3','WP4','WP5','WP6','WP7','WP8'}
 
-allW=[]
-allB=[]
+
 
 from functools import partial
 
@@ -245,17 +244,17 @@ class King(Piece):
             if board[i][j-1]=='' or board[i][j-1][0]!=char:
                 possible_moves.append(str(i)+str(j-1))
 
-        if len(possible_moves)>0:
-            if char=='W':
-                for i in possible_moves:
-                    for k in allB:
-                        if i==k:
-                            possible_moves.remove(i)
-            if char=='B':
-                for i in possible_moves:
-                    for k in allW:
-                        if i==k:
-                            possible_moves.remove(i)
+        # if len(possible_moves)>0:
+        #     if char=='W':
+        #         for i in possible_moves:
+        #             for k in allB:
+        #                 if i==k:
+        #                     possible_moves.remove(i)
+        #     elif char=='B':
+        #         for i in possible_moves:
+        #             for k in allW:
+        #                 if i==k:
+        #                     possible_moves.remove(i)
 
         return possible_moves
 
@@ -378,9 +377,9 @@ class Pawn(Piece):
                 if board[i+1][j]=='':
                     possible_moves.append(str(i+1)+str(j))
 
-            if j-1>=0 and board[i+1][j-1]!='' and board[i+1][j-1][0] =='B':
+            if j-1>=0 and i+1<8 and board[i+1][j-1]!='' and board[i+1][j-1][0] =='B':
                 possible_moves.append(str(i+1)+str(j-1))
-            if j+1<8 and board[i+1][j+1]!='' and board[i+1][j+1][0] =='B':
+            if j+1<8 and i+1<8 and board[i+1][j+1]!='' and board[i+1][j+1][0] =='B':
                 possible_moves.append(str(i+1)+str(j+1))
 
         if char == 'B':
